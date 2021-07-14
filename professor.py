@@ -24,10 +24,6 @@ class TeacherAgent(Agent):
             if msg:
                 self.counter += 1
                 print("T0: Recived message {}.".format(self.counter))
-                #print(msg.body)
-                #print(msg.sender)
-                #aioxmpp.JID.fromstr
-                #msganswer = Message(to=msg.sender.split("@")[0]+"@"+msg.sender.split("@")[1])     # Instantiate the message
                 msganswer = Message(to=aioxmpp.JID.__str__(msg.sender))     # Instantiate the message
                 msganswer.set_metadata("performative", "inform")  # Set the "query" FIPA performative
                 msganswer.body = "Answer to " + msg.body
