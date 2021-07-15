@@ -13,34 +13,34 @@ from spade.message import Message
 class StudentAgent(Agent):
     class MyBehav(CyclicBehaviour):
         async def on_start(self):
-            print("Z{}: Student start the questions . . .".format("{}".format(self.agent.jid).split('@')[0]))
+            print("Z{}: Student start the questions . . .".format(self.agent.name))
             self.counter = 0
             self.StopBehav = False   
             
         async def parar(self):
-            print("Z{}: Finish behavior . . .".format("{}".format(self.agent.jid).split('@')[0]))
+            print("Z{}: Finish behavior . . .".format(self.agent.name))
             self.kill(exit_code=10)
             return
 
         async def run(self):
-            print("Z{}: Ask a question.".format("{}".format(self.agent.jid).split('@')[0]))
+            print("Z{}: Ask a question.".format(self.agent.name))
             msg = Message(to="naum@naumveiga.com.br")     # Instantiate the message
             msg.set_metadata("performative", "query")  # Set the "query" FIPA performative
             msg.body = "Question number {}".format(self.counter)
             await self.send(msg)
-            print("Z{}: Send messagquestion {}.".format("{}".format(self.agent.jid).split('@')[0],self.counter))
+            print("Z{}: Send messagquestion {}.".format(self.agent.name,self.counter))
             # wait for information
             msgreceiv = await self.receive(timeout=10) # wait for a message
             if msgreceiv:
                 self.counter += 1
-                print("Z{}: Student recived information {}.".format("{}".format(self.agent.jid).split('@')[0],self.counter))
+                print("Z{}: Student recived information {}.".format(self.agent.name,self.counter))
                 print(msgreceiv.body)
             else:
-                print("Z{}: Student did not receive information.".format("{}".format(self.agent.jid).split('@')[0]))
+                print("Z{}: Student did not receive information.".format(self.agent.name))
             
             await asyncio.sleep(1)
             if self.StopBehav:
-                print("Z{}: Finish behavior . . .".format("{}".format(self.agent.jid).split('@')[0]))
+                print("Z{}: Finish behavior . . .".format(self.agent.name))
                 self.kill(exit_code=10)
                 return
 

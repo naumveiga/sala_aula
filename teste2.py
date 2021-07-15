@@ -21,6 +21,7 @@ class DummyAgent(Agent):
             print("Counter: {}".format(self.counter))
             self.counter += 1
             await asyncio.sleep(1)
+            print(self.agent.name)
 
     async def setup(self):
         print("Agent starting . . .")
