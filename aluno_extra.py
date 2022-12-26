@@ -10,6 +10,7 @@ from spade.agent import Agent
 from spade.behaviour import CyclicBehaviour
 from spade.message import Message
 import json
+from aioxmpp import PresenceState, PresenceShow
 
 with open('sala.json', 'r') as fp:
             config = json.load(fp)
@@ -17,6 +18,12 @@ with open('sala.json', 'r') as fp:
 class StudentAgent(Agent):
     class MyBehav(CyclicBehaviour):
         async def on_start(self):
+            #self.presence.subscribe("naum5@naumveiga")
+            #self.presence.approve("naum5@naumveiga")
+            print(' >>>> ', self.presence.is_available())
+            self.presence.set_available(show=PresenceShow.CHAT)
+            print(self.presence.state.show)
+            self.presence.subscribe("naum5@naumveiga")
             print("aluno({}): Student start the questions . . .".format(self.agent.name))
             self.counter = 0
             self.StopBehav = False   
@@ -32,7 +39,11 @@ class StudentAgent(Agent):
             msg = Message(to=config["professor"])     # Instantiate the message
             msg.set_metadata("performative", "query")  # Set the "query" FIPA performative
             #msg.body = "Question number {}".format(self.counter)
-            msg.body = "{}".format(self.counter)
+            try :
+                number = int(input(" Input a number: "))
+            except:
+                number = 0
+            msg.body = "{}".format(number)
             await self.send(msg)
             #print("aluno({}): Send messagquestion {}.".format(self.agent.name,self.counter))
             # wait for information
